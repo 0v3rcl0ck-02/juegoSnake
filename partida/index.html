@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Snake Boss Battle</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="game-container">
+    <h1>🐍 Snake Boss Battle</h1>
+    <canvas id="gameCanvas" width="600" height="600"></canvas>
+    
+    <div class="hud">
+      <p>Puntaje: <span id="score">0</span></p>
+      <p>Nivel: <span id="level">1</span></p>
+    </div>
+
+    <h2>Controles</h2>
+    <div class="controls">
+      <button class="control-btn" data-dir="UP">⬆️</button><br>
+      <button class="control-btn" data-dir="LEFT">⬅️</button>
+      <button class="control-btn" data-dir="DOWN">⬇️</button>
+      <button class="control-btn" data-dir="RIGHT">➡️</button>
+    </div>
+
+    <button onclick="location.href='../main.html'">Volver al Menú</button>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

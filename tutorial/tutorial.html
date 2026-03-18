@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tutorial - Snake Boss Battle</title>
+  <link rel="stylesheet" href="tutorial.css">
+</head>
+<body>
+  <div class="tutorial-container">
+    <h1>📘 Tutorial</h1>
+    <p>Haz clic en una comida para ver su efecto en la serpiente:</p>
+
+    <canvas id="tutorialCanvas" width="400" height="400"></canvas>
+
+    <div class="food-buttons">
+      <button data-effect="grow">🍎 Normal</button>
+      <button data-effect="shrink">☠️ Venenosa</button>
+      <button data-effect="paralysis">⏸️ Parálisis</button>
+      <button data-effect="reverse">↩️ Reversa</button>
+    </div>
+
+    <h2>Controles</h2>
+    <div class="controls">
+      <button class="control-btn" data-dir="UP">⬆️</button><br>
+      <button class="control-btn" data-dir="LEFT">⬅️</button>
+      <button class="control-btn" data-dir="DOWN">⬇️</button>
+      <button class="control-btn" data-dir="RIGHT">➡️</button>
+    </div>
+
+    <button class="nav-btn" onclick="location.href='../partida/index.html'">Ir al Juego</button>
+    <button class="nav-btn" onclick="location.href='../main.html'">Volver al Menú</button>
+  </div>
+
+  <script src="tutorial.js"></script>
+</body>
+</html>
