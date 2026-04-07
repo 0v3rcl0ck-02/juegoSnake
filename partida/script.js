@@ -1,3 +1,18 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-analytics.js";
+const firebaseConfig = {
+    apiKey: "AIzaSyDFp1zxnhqGNh2J2rVsKpydvrr-7AtGW50",
+    authDomain: "juego-serpiente-62d20.firebaseapp.com",
+    databaseURL: "https://juego-serpiente-62d20-default-rtdb.firebaseio.com",
+    projectId: "juego-serpiente-62d20",
+    storageBucket: "juego-serpiente-62d20.firebasestorage.app",
+    messagingSenderId: "87032827699",
+    appId: "1:87032827699:web:dd8d2282d0f3ecbc05b846",
+    measurementId: "G-VX5Y6EG3JV"
+  };
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);  
+ // --juego de la serpiente con efectos especiales--
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -14,6 +29,16 @@ let score = 0;
 let level = 1;
 let speed = 150;
 let game;
+// Guardar puntaje en Firebase
+function saveScore(playerName, score) {
+  const scoresRef = ref(db, 'scores');
+  const newScoreRef = push(scoresRef);
+  set(newScoreRef, {
+    name: playerName,
+    score: score,
+    date: new Date().toISOString()
+  });
+}
 
 // Estados especiales
 let paralyzed = false;
@@ -87,7 +112,9 @@ function moveSnake() {
   // Colisión consigo misma
   if (snake.some(seg => seg.x === newHead.x && seg.y === newHead.y)) {
     clearInterval(game);
-    showMessage("Game Over", "red");
+    // guardar puntaje
+    saveScore(prompt("Ingresa tu nombre:"), score);
+    alert("Game Over. Tu puntaje fue: " + score);
   }
 
   snake.unshift(newHead);
