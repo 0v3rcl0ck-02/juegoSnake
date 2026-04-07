@@ -13,6 +13,8 @@ const firebaseConfig = {
   };
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);  
+  import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+const db = getDatabase(app);
  // --juego de la serpiente con efectos especiales--
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
