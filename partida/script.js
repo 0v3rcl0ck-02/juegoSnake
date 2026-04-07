@@ -13,12 +13,12 @@ const firebaseConfig = {
     measurementId: "G-VX5Y6EG3JV"
 };
 
-// Inicialización de Firebase
+// --- INICIALIZACIÓN ÚNICA ---
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app); 
-const db = getDatabase(app); // Se inicializa la base de datos usando la función importada arriba
+const db = getDatabase(app); 
 
-// -- Juego de la serpiente con efectos especiales --
+// -- CONFIGURACIÓN DEL JUEGO --
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -36,23 +36,28 @@ let level = 1;
 let speed = 150;
 let game;
 
-// Guardar puntaje en Firebase
+// --- FUNCIONES DE FIREBASE ---
 function saveScore(playerName, score) {
     if (!playerName) playerName = "Jugador Anónimo";
+    
     const scoresRef = ref(db, 'scores');
     const newScoreRef = push(scoresRef);
+    
     set(newScoreRef, {
         name: playerName,
         score: score,
         date: new Date().toISOString()
+    }).then(() => {
+        console.log("Puntaje guardado en la nube");
+    }).catch((error) => {
+        console.error("Error al guardar:", error);
     });
 }
 
-// Estados especiales
+// --- LÓGICA DEL JUEGO ---
 let paralyzed = false;
 let reversedControls = false;
 
-// Generar comida
 function spawnFood() {
     const types = [
         { color: "red", effect: "grow" },
@@ -69,13 +74,11 @@ function spawnFood() {
     };
 }
 
-// Dibujar comida
 function drawFood() {
     ctx.fillStyle = food.color;
     ctx.fillRect(food.x, food.y, box, box);
 }
 
-// Dibujar serpiente
 function drawSnake() {
     snake.forEach((segment, i) => {
         ctx.fillStyle = i === 0 ? "lime" : "green";
@@ -83,7 +86,6 @@ function drawSnake() {
     });
 }
 
-// Movimiento
 function moveSnake() {
     if (paralyzed) return;
 
@@ -125,7 +127,6 @@ function moveSnake() {
     snake.unshift(newHead);
 }
 
-// Aplicar efectos de comida
 function applyEffect(effect) {
     if (effect === "grow") {
         const last = snake[snake.length - 1];
@@ -152,7 +153,6 @@ function applyEffect(effect) {
     }
 }
 
-// Dibujar todo
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawFood();
@@ -161,7 +161,6 @@ function draw() {
     drawStatus();
 }
 
-// Mostrar mensajes dentro del canvas
 function showMessage(text, color) {
     ctx.fillStyle = color;
     ctx.font = "30px Arial";
@@ -169,7 +168,6 @@ function showMessage(text, color) {
     ctx.fillText(text, canvas.width / 2, canvas.height / 2);
 }
 
-// Mostrar estado actual
 function drawStatus() {
     let status = "Normal";
     if (paralyzed) status = "Paralizado";
@@ -181,7 +179,7 @@ function drawStatus() {
     ctx.fillText("Estado: " + status, 10, 20);
 }
 
-// Controles
+// --- CONTROLES ---
 document.addEventListener("keydown", event => {
     let key = event.key;
     if (!reversedControls) {
@@ -214,4 +212,5 @@ document.querySelectorAll(".control-btn").forEach(btn => {
     });
 });
 
+// --- INICIO ---
 game = setInterval(draw, speed);
