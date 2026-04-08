@@ -59,3 +59,8 @@ button:hover {
 .control-btn:hover {
   background-color: #2980b9;
 }
+.control-btn {
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+}

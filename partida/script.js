@@ -124,5 +124,24 @@ document.addEventListener("keydown", event => {
         if ((key === "ArrowDown" || key === "s") && direction !== "DOWN") direction = "UP";
     }
 });
+// --- NUEVO: SOPORTE PARA BOTONES EN PANTALLA ---
+document.querySelectorAll(".control-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+        const selectedDir = btn.getAttribute("data-dir");
 
+        if (!reversedControls) {
+            // Movimiento Normal
+            if (selectedDir === "UP" && direction !== "DOWN") direction = "UP";
+            if (selectedDir === "DOWN" && direction !== "UP") direction = "DOWN";
+            if (selectedDir === "LEFT" && direction !== "RIGHT") direction = "LEFT";
+            if (selectedDir === "RIGHT" && direction !== "LEFT") direction = "RIGHT";
+        } else {
+            // Movimiento Invertido (Efecto especial)
+            if (selectedDir === "UP" && direction !== "UP") direction = "DOWN";
+            if (selectedDir === "DOWN" && direction !== "DOWN") direction = "UP";
+            if (selectedDir === "LEFT" && direction !== "LEFT") direction = "RIGHT";
+            if (selectedDir === "RIGHT" && direction !== "RIGHT") direction = "LEFT";
+        }
+    });
+});
 game = setInterval(draw, speed);
